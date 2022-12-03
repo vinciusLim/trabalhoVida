@@ -1,16 +1,20 @@
 #include <stdio.h>
 #include <string.h>
 
-struct st_DadosCliente{
+struct st_DadosCliente
+{
 	char nome[100];
 	char sobrenome[100];
 	int idade;
 	int telefone;
 	int cpf;
 	int id;
-}cliente[10];
+}
 
-struct st_DadosMedicamentos{
+cliente[10];
+
+struct st_DadosMedicamentos
+{
 	char nome[100];
 	float precoCompra;
 	float precoVenda;
@@ -18,29 +22,38 @@ struct st_DadosMedicamentos{
 	int quantidade;
 	char tarja[10];
 	int id_medicamento;
-}medicamento[10];
+  int estoque;
+}
 
-struct st_DadosColaborador{
+medicamento[10];
+
+struct st_DadosColaborador
+{
 	char nome[100];
 	char sobrenome[100];
 	int idade;
 	int id_colaborador;
-}colaborador[10];
+}
 
-int main(){
+colaborador[10];
+
+int main()
+{
 	int operacao, operacao_cliente, cont = 0, id = 0, numero_id;
 	int id_med = 0, cont_med = 0, operacao_medicamentos;
 	int operacao_colaborador, cont_col = 0, id_col = 0;
+  int operacao_venda, quantidadeCompra;
+  float valor_compra, total_compra;
 	char vazia[10] = { "0" };
 
 	do {
-		printf("\nDigitar operacao a ser seguida: \n1 - Atendimento ao cliente: \n2 - Cadastro de Medicamentos: \n3 - Cadastro de Colaborador: \n0 - Fechar programa: \n");
+		printf("\n\nDigitar operacao a ser seguida: \n1 - Atendimento ao cliente: \n2 - Cadastro de Medicamentos: \n3 - Cadastro de Colaborador: \n4 - Compra/Venda: \n0 - Fechar programa: \n");
 		scanf("%d", &operacao);
 
 		switch (operacao)
 		{
 			case 1:
-				printf("Digitar operacao do cliente: \n1 - Cadastro:  \n2 - Consulta: \n3 - Alteracao: \n4 - Exclusão: \n0 - Sair da opcao cliente: \n");
+				printf("\nDigitar operacao do cliente: \n1 - Cadastro:  \n2 - Consulta: \n3 - Alteracao: \n4 - Exclusão: \n0 - Sair da opcao cliente: \n");
 				scanf("%d", &operacao_cliente);
 				switch (operacao_cliente)
 				{
@@ -120,7 +133,7 @@ int main(){
 
 				break;
 			case 2:
-				printf("Digitar operacao do medicamento: \n1 - Cadastro: \n2 - Consulta: \n3 - Alteracao: \n4 - Exclusão: \n0 - Sair da opção medicamento: \n");
+				printf("\nDigitar operacao do medicamento: \n1 - Cadastro: \n2 - Consulta: \n3 - Alteracao: \n4 - Exclusão: \n0 - Sair da opção medicamento: \n");
 				scanf("%d", &operacao_medicamentos);
 				switch (operacao_medicamentos)
 				{
@@ -208,7 +221,7 @@ int main(){
 
 			case 3:
 
-				printf("Digitar operacao do Colaborador: \n1 - Cadastro: \n2 - Consulta: \n3 - Alteracao: \n4 - Exclusão: \n0 - Sair da opção cliente: \n");
+				printf("\nDigitar operacao do Colaborador: \n1 - Cadastro: \n2 - Consulta: \n3 - Alteracao: \n4 - Exclusão: \n0 - Sair da opção cliente: \n");
 
 				scanf("%d", &operacao_colaborador);
 				switch (operacao_colaborador)
@@ -240,34 +253,31 @@ int main(){
 
 						printf("\n");
 						break;
-				
 
-          case 3: 
+					case 3:
 
-            printf("Qual o numero do ID sera alterado:");
-                scanf("%d", &numero_id);
+						printf("Qual o numero do ID sera alterado:");
+						scanf("%d", &numero_id);
 
-                printf("Digitar nome: ");
-                scanf("%s",colaborador[numero_id-1].nome);
+						printf("Digitar nome: ");
+						scanf("%s", colaborador[numero_id - 1].nome);
 
-                printf("Digitar sobrenome: ");
-                scanf("%s",colaborador[numero_id-1].sobrenome);
+						printf("Digitar sobrenome: ");
+						scanf("%s", colaborador[numero_id - 1].sobrenome);
 
-                printf("Digitar idade: ");
-                scanf("%d",&colaborador[numero_id-1].idade);
-                
-                break;
-          
+						printf("Digitar idade: ");
+						scanf("%d", &colaborador[numero_id - 1].idade);
 
-        case 4:
+						break;
+
+					case 4:
 
 						printf("Qual o numero do ID sera excluido:");
 						scanf("%d", &numero_id);
 
 						strcpy(colaborador[numero_id - 1].nome, vazia);
-            strcpy(colaborador[numero_id - 1].sobrenome, vazia);
+						strcpy(colaborador[numero_id - 1].sobrenome, vazia);
 						colaborador[numero_id - 1].idade = 0;
-						
 
 						printf("\n\nExclusão feita\n\n");
 
@@ -276,10 +286,53 @@ int main(){
 					default:
 						printf("\n\nOperacao não escolhida\n\n");
 						break;
-				
+          
+          }break;
 
-				break;
-		}}
+
+      case 4: 
+
+            printf("\nDigitar operação de compra ou venda: \n1 - Compra de medicamento: \n2 - ...\n");
+
+            scanf("%d", &operacao_venda);
+				switch (operacao_venda){
+
+          case 1: 
+
+          printf("Escolher numero do ID do medicamento: ");
+          scanf("%d", &numero_id);
+          
+          printf("Escolher quantidade do medicamento: ");
+          scanf("%d", &quantidadeCompra);
+            
+          valor_compra = medicamento[numero_id - 1].precoCompra * quantidadeCompra;
+
+          printf("O valor da compra foi: R$ %.2f", valor_compra);
+
+          medicamento[numero_id].estoque = medicamento[numero_id].estoque + quantidadeCompra;
+
+          printf("\nO estoque desse remédio é de %d unidades\n", medicamento[numero_id].estoque);
+
+          total_compra = total_compra + valor_compra;
+
+          printf("O total gasto na compra de medicamentos é: %.2f", total_compra);
+
+          
+          
+
+
+
+
+
+
+
+
+          
+        }
+
+						break;
+      
+		}
 	} while (operacao != 0);
 	printf("\nO programa foi encerrado");
 

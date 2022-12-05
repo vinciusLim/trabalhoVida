@@ -22,7 +22,7 @@ struct st_DadosMedicamentos
 	int quantidade;
 	char tarja[10];
 	int id_medicamento;
-  int estoque;
+	int estoque;
 }
 
 medicamento[10];
@@ -39,11 +39,11 @@ colaborador[10];
 
 int main()
 {
-	int operacao, operacao_cliente, cont = 0, id = 0, numero_id;
+	int operacao, operacao_cliente, cont = 0, id = 0, numero_id, colaborador_id;
 	int id_med = 0, cont_med = 0, operacao_medicamentos;
 	int operacao_colaborador, cont_col = 0, id_col = 0;
-  int operacao_venda, quantidadeCompra;
-  float valor_compra, total_compra;
+	int operacao_venda, quantidadeCompra, numero_id2, quant_venda;
+	float valor_compra = 0, total_compra = 0, valor_venda = 0, total_venda = 0;
 	char vazia[10] = { "0" };
 
 	do {
@@ -286,52 +286,81 @@ int main()
 					default:
 						printf("\n\nOperacao não escolhida\n\n");
 						break;
-          
-          }break;
+				}
 
+				break;
 
-      case 4: 
+			case 4:
 
-            printf("\nDigitar operação de compra ou venda: \n1 - Compra de medicamento: \n2 - ...\n");
+				printf("\nDigitar operação de compra ou venda: \n1 - Compra de medicamento: \n2 - Conferir estoque: \n3 - Venda do Medicamento: \n4 - Relatorio financeiro: \n0 - Sair da opção de Venda/Compra: \n");
 
-            scanf("%d", &operacao_venda);
-				switch (operacao_venda){
+				scanf("%d", &operacao_venda);
+				switch (operacao_venda)
+				{
+					case 1:
 
-          case 1: 
+						printf("Escolher numero do ID do medicamento: ");
+						scanf("%d", &numero_id);
 
-          printf("Escolher numero do ID do medicamento: ");
-          scanf("%d", &numero_id);
-          
-          printf("Escolher quantidade do medicamento: ");
-          scanf("%d", &quantidadeCompra);
-            
-          valor_compra = medicamento[numero_id - 1].precoCompra * quantidadeCompra;
+						printf("Escolher quantidade do medicamento: ");
+						scanf("%d", &quantidadeCompra);
 
-          printf("O valor da compra foi: R$ %.2f", valor_compra);
+						valor_compra = medicamento[numero_id - 1].precoCompra * quantidadeCompra;
 
-          medicamento[numero_id].estoque = medicamento[numero_id].estoque + quantidadeCompra;
+						printf("O valor da compra foi: R$ %.2f", valor_compra);
 
-          printf("\nO estoque desse remédio é de %d unidades\n", medicamento[numero_id].estoque);
+						medicamento[numero_id].estoque = medicamento[numero_id].estoque + quantidadeCompra;
 
-          total_compra = total_compra + valor_compra;
+						printf("\nO estoque desse remédio é de %d unidades\n", medicamento[numero_id].estoque);
 
-          printf("O total gasto na compra de medicamentos é: %.2f", total_compra);
-
-          
-          
-
-
-
-
-
-
-
-
-          
-        }
+						total_compra = total_compra + valor_compra;
 
 						break;
-      
+
+					case 2:
+
+						for (int i = 0; i < cont_med; i++)
+						{
+							printf("\nEstoque do medicamento %d é: %d ", (i + 1), medicamento[i + 1].estoque);
+						};
+
+						break;
+
+					case 3:
+
+						printf("Digitar ID do colaborador: ");
+						scanf("%d", &colaborador_id);
+
+						printf("Digitar ID do cliente: ");
+						scanf("%d", &numero_id);
+
+						printf("Digitar o ID do medicamento: ");
+						scanf("%d", &numero_id2);
+
+						printf("Digitar quantidade do medicamento: ");
+						scanf("%d", &quant_venda);
+
+						valor_venda = medicamento[numero_id2].precoVenda * quant_venda;
+
+						total_venda = total_venda + valor_venda;
+
+						printf("A venda do colaborador: %s %s para o cliente: %s %s foi de R$ %.2f.", colaborador[colaborador_id].nome, colaborador[colaborador_id].sobrenome, cliente[numero_id].nome, cliente[numero_id].sobrenome, valor_venda);
+						break;
+
+					case 4:
+
+						printf("O total gasto na compra de medicamentos é: %.2f", total_compra);
+						printf("\nO total arrecadado com a venda de medicamentos é: %.2f", total_venda);
+						printf("\nO lucro com a venda de medicamentos é: %.2f", total_venda - total_compra);
+						break;
+
+					default:
+
+						printf("\nOperacao não escolhida");
+						break;
+				}
+
+				break;
 		}
 	} while (operacao != 0);
 	printf("\nO programa foi encerrado");
